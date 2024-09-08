@@ -119,7 +119,7 @@ def level4(vida, mundo):
         if vida > 0:
             level4(vida, mundo)
 
-def final_level(mundo):
+def final_level(vida, mundo):
     decision = input("\nNivel Final: Selecciona el rumbo (izquierda/derecha): \n> ")
     if (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
         print("\n" + "="*40)
