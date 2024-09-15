@@ -1,160 +1,93 @@
 # Inicio del juego Mario Bros rescatando a la princesa
+def print_banner(message, symbol="=", width=40):
+    print("\n" + symbol * width)
+    print(" " * 10 + message)
+    print(symbol * width + "\n")
 
-print("\n" + "="*40)
-print(" " * 10 + "Bienvenido a Mario Bros")
-print("="*40 + "\n")
+def get_valid_input(prompt, valid_option1, valid_option2):
+    try:
+        response = input(prompt)
+        while response != valid_option1 and response != valid_option2:
+            print("\n Selección inválida")
+            response = input(prompt)
+        return response
+    except Exception as e:
+        print("Error: ", e)
+        return None
 
-# Preguntar al usuario si desea jugar
+def select_character():
+    try:
+        print("\nSelecciona tu personaje\n1. Mario\n2. Luigi")
+        character = input("\nEl Personaje Seleccionado es: \n> ")
+        while character != "1" and character != "2":
+            print("\n Selección inválida")
+            character = input("\nEl Personaje Seleccionado es: \n> ")
+        return character  # Ensure the selected character is returned
+    except Exception as e:
+        print(f"Error: ", e)
+        return None
 
-respuesta = input("\nDesea jugar? (si/no): \n> ")
+def select_world():
+    try:
+        print("\nSelecciona tu mundo\n1. Alice\n2. Marta")
+        world = input("\nEl Mundo Seleccionado es: \n> ")
+        while world != "1" and world != "2":
+            print("\n Selección inválida")
+            world = input("\nEl Mundo Seleccionado es: \n> ")
+        return "Alice" if world == "1" else "Marta"  # Ensure the selected world is returned
+    except Exception as e:
+        print(f"Error: ", e)
+        return None
 
-def personaje_seleccionado(personaje):
-    if personaje == "Mario":
-        print("\n" + "-"*40)
-        print(" " * 10 + "Seleccionaste a Mario")
-        print("-"*40 + "\n")
-    elif personaje == "Luigi":
-        print("\n" + "-"*40)
-        print(" " * 10 + "Seleccionaste a Luigi")
-        print("-"*40 + "\n")
-    else:
-        print("\n" + "-"*40)
-        print(" " * 10 + "Selección inválida")
-        print("-"*40 + "\n")
-        
-def mundo_seleccionado(mundo):
-    if mundo == "Alice":
-        print("\n" + "-"*40)
-        print(" " * 10 + "Seleccionaste el mundo Alice")
-        print("-"*40 + "\n")
-    elif mundo == "Marta":
-        print("\n" + "-"*40)
-        print(" " * 10 + "Seleccionaste el mundo Marta")
-        print("-"*40 + "\n")
-    else:
-        print("\n" + "-"*40)
-        print(" " * 10 + "Selección inválida")
-        print("-"*40 + "\n")
-        
-def vidas(vida):
-    if vida == 3:
-        print("\n" + "*"*40)
-        print(" " * 10 + "Tienes 3 vidas")
-        print("*"*40 + "\n")
-    elif vida == 2:
-        print("\n" + "*"*40)
-        print(" " * 10 + "Tienes 2 vidas")
-        print("*"*40 + "\n")
-    elif vida == 1:
-        print("\n" + "*"*40)
-        print(" " * 10 + "Tienes 1 vida")
-        print("*"*40 + "\n")
-    else:
-        print("\n" + "*"*40)
-        print(" " * 10 + "Has perdido todas tus vidas")
-        print(" " * 10 + "GAME OVER")
-        print("*"*40 + "\n")
+def display_lives(lifes):
+    try:
+        if lifes > 0:
+            print_banner("Tienes " + str(lifes) + " vidas", "*")
+        else:
+            print_banner("Has perdido todas tus vidas\nGAME OVER", "*")
+    except Exception as e:
+        print(f"Error: ", e)
 
-def level1(vida, mundo):
-    decision = input("\nNivel 1: Selecciona el rumbo (izquierda/derecha): \n> ")
-    if (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino correcto, sigamos adelante")
-        print("-"*40 + "\n")
-        level2(vida, mundo)
-    elif (decision == "derecha" and mundo == "Alice") or (decision == "izquierda" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino incorrecto, has perdido una vida")
-        print("-"*40 + "\n")
-        vida -= 1
-        vidas(vida)
-        if vida > 0:
-            level1(vida, mundo)
+def play_level(level, lifes, world):
+    try:
+        decision = get_valid_input("\nNivel " + str(level) + ": Selecciona el rumbo (izquierda/derecha): \n> ", "izquierda", "derecha")
+        if (decision == "izquierda" and world == "Alice") or (decision == "derecha" and world == "Marta"):
+            print_banner("Has seleccionado el camino correcto, sigamos adelante", "-")
+        else:
+            print_banner("Has seleccionado el camino incorrecto, has perdido una vida", "-")
+            lifes -= 1
+            display_lives(lifes)
+        return lifes
+    except Exception as e:
+        print(f"Error: ", e)
+        return lifes
 
-def level2(vida, mundo):
-    decision = input("\nNivel 2: Selecciona el rumbo (izquierda/derecha): \n> ")
-    if (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino correcto, sigamos adelante")
-        print("-"*40 + "\n")
-        level3(vida, mundo)
-    elif (decision == "derecha" and mundo == "Alice") or (decision == "izquierda" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino incorrecto, has perdido una vida")
-        print("-"*40 + "\n")
-        vida -= 1
-        vidas(vida)
-        if vida > 0:
-            level2(vida, mundo)
+def start():
+    try:
+        print_banner("Bienvenido a Mario Bros")
+        lifes = 3
 
-def level3(vida, mundo):
-    decision = input("\nNivel 3: Selecciona el rumbo (izquierda/derecha): \n> ")
-    if (decision == "derecha" and mundo == "Alice") or (decision == "izquierda" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino correcto, sigamos adelante")
-        print("-"*40 + "\n")
-        level4(vida, mundo)
-    elif (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino incorrecto, has perdido una vida")
-        print("-"*40 + "\n")
-        vida -= 1
-        vidas(vida)
-        if vida > 0:
-            level3(vida, mundo)
+        respuesta = get_valid_input("\nDesea jugar? (si/no): \n> ", "si", "no")
 
-def level4(vida, mundo):
-    decision = input("\nNivel 4: Selecciona el rumbo (izquierda/derecha): \n> ")
-    if (decision == "derecha" and mundo == "Alice") or (decision == "izquierda" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino correcto, sigamos adelante")
-        print("-"*40 + "\n")
-        final_level(vida, mundo)
-    elif (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
-        print("\n" + "-"*40)
-        print(" " * 10 + "Has seleccionado el camino incorrecto, has perdido una vida")
-        print("-"*40 + "\n")
-        vida -= 1
-        vidas(vida)
-        if vida > 0:
-            level4(vida, mundo)
+        if respuesta == "si":
+            print_banner("Comencemos a jugar")
+            character = select_character()
+            world = select_world()
 
-def final_level(vida, mundo):
-    decision = input("\nNivel Final: Selecciona el rumbo (izquierda/derecha): \n> ")
-    if (decision == "izquierda" and mundo == "Alice") or (decision == "derecha" and mundo == "Marta"):
-        print("\n" + "="*40)
-        print(" " * 10 + "Felicitades, has rescatado a la princesa Peach")
-        print("="*40 + "\n")
-    elif (decision == "derecha" and mundo == "Alice") or (decision == "izquierda" and mundo == "Marta"):
-        print("\n" + "="*40)
-        print(" " * 10 + "Has seleccionado el camino incorrecto, has perdido al amor de tu vida, la princesa Peach")
-        print(" " * 10 + "GAME OVER")
-        print("="*40 + "\n")
+            print_banner(f"Comienza el juego con {character}, recuerda que tienes 3 vidas, donde cada decisión que tomes puede cambiar el rumbo de tu juego\nRescata a la Princesa Peach del castillo de Bowser\nBuena Suerte")
 
-if respuesta == "si":
-    print("\n" + "="*40)
-    print(" " * 10 + "Comencemos a jugar")
-    print("="*40 + "\n")
-    print("\nSelecciona tu personaje\n")
-    print("1. Mario")
-    print("2. Luigi")
+            for level in range(1, 5):
+                lifes = play_level(level, lifes, world)
+                if lifes <= 0:
+                    break
 
-    personaje = input("\nEl Personaje Seleccionado es: \n> ")
-    personaje_seleccionado(personaje)
+            if lifes > 0:
+                decision = get_valid_input("\nNivel Final: Selecciona el rumbo (izquierda/derecha): \n> ", "izquierda", "derecha")
+                if (decision == "izquierda" and world == "Alice") or (decision == "derecha" and world == "Marta"):
+                    print_banner("Felicitades, has rescatado a la princesa Peach")
+                else:
+                    print_banner("Has seleccionado el camino incorrecto, has perdido al amor de tu vida, la princesa Peach\nGAME OVER")
+    except Exception as e:
+        print(f"Error: ", e)
 
-    print("\nSelecciona tu mundo\n")
-    print("Alice")
-    print("Marta")
-    mundo = input("\nEl Mundo Seleccionado es: \n> ")
-    mundo_seleccionado(mundo)
-
-    print("\n" + "="*40)
-    print(" " * 10 + "Comienza el juego, recuerda que tienes 3 vidas, donde cada decisión que tomes puede cambiar el rumbo de tu juego")
-    print(" " * 10 + "Rescata a la Princesa Peach del castillo de Bowser")
-    print(" " * 10 + "Buena Suerte", personaje)
-    print("="*40 + "\n")
-
-    vida = 3
-
-    # Iniciar el juego desde el nivel 1
-    level1(vida, mundo)
+start()
