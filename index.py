@@ -8,7 +8,7 @@ def get_valid_input(prompt, valid_option1, valid_option2):
     try:
         response = input(prompt)
         while response != valid_option1 and response != valid_option2:
-            print("\n Selección inválida")
+            print("\nSelección inválida, vuelve a intentarlo")
             response = input(prompt)
         return response
     except Exception as e:
@@ -20,9 +20,9 @@ def select_character():
         print("\nSelecciona tu personaje\n1. Mario\n2. Luigi")
         character = input("\nEl Personaje Seleccionado es: \n> ")
         while character != "1" and character != "2":
-            print("\n Selección inválida")
+            print("\nSelección inválida, vuelve a intentarlo")
             character = input("\nEl Personaje Seleccionado es: \n> ")
-        return character  # Ensure the selected character is returned
+        return character 
     except Exception as e:
         print(f"Error: ", e)
         return None
@@ -32,9 +32,9 @@ def select_world():
         print("\nSelecciona tu mundo\n1. Alice\n2. Marta")
         world = input("\nEl Mundo Seleccionado es: \n> ")
         while world != "1" and world != "2":
-            print("\n Selección inválida")
+            print("\nSelección inválida, vuelve a intentarlo")
             world = input("\nEl Mundo Seleccionado es: \n> ")
-        return "Alice" if world == "1" else "Marta"  # Ensure the selected world is returned
+        return "Alice" if world == "1" else "Marta" 
     except Exception as e:
         print(f"Error: ", e)
         return None
@@ -74,7 +74,7 @@ def start():
             character = select_character()
             world = select_world()
 
-            print_banner(f"Comienza el juego con {character}, recuerda que tienes 3 vidas, donde cada decisión que tomes puede cambiar el rumbo de tu juego\nRescata a la Princesa Peach del castillo de Bowser\nBuena Suerte")
+            print_banner("Comienza el juego con" + character + ", recuerda que tienes 3 vidas, donde cada decisión que tomes puede cambiar el rumbo de tu juego\nRescata a la Princesa Peach del castillo de Bowser\nBuena Suerte")
 
             for level in range(1, 5):
                 lifes = play_level(level, lifes, world)
@@ -84,7 +84,7 @@ def start():
             if lifes > 0:
                 decision = get_valid_input("\nNivel Final: Selecciona el rumbo (izquierda/derecha): \n> ", "izquierda", "derecha")
                 if (decision == "izquierda" and world == "Alice") or (decision == "derecha" and world == "Marta"):
-                    print_banner("Felicitades, has rescatado a la princesa Peach")
+                    print_banner("Felicidades, has rescatado a la princesa Peach")
                 else:
                     print_banner("Has seleccionado el camino incorrecto, has perdido al amor de tu vida, la princesa Peach\nGAME OVER")
     except Exception as e:
